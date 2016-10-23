@@ -241,6 +241,92 @@ student@student-HP-Compaq-4000-Pro-SFF-PC:~$ ./a.out
 
 
 
+
+////////////////////SIMPLE PRODUCER///////////////////////////
+
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 10
+
+int count=0,b[MAX];
+int producer();
+void consumer();
+
+void main()
+{
+	int i,opt;
+	for(i=0;i<MAX;i++)
+		b[i]=-1;
+
+	do{	
+	printf("\n***Main Menu***");
+	printf("\n1.Produce");
+	printf("\n2.Consume");
+	printf("\n3.Exit");
+	
+	printf("\nEnter your option:");
+	scanf("%d",&opt);
+
+	switch(opt)
+	{
+		case 1:if(count<MAX)
+			producer();
+			else
+			printf("\n Buffer is full!!!");
+			break;
+
+		case 2:if(count>0)
+			consumer();
+			else
+			printf("\n Buffer is empty!!!");
+			break;
+
+		case 3: exit(0);
+		
+		default:printf("\nInvalid Option!!!");
+	}
+	}while(opt!=3);
+}
+
+int producer()
+{
+	int data,i;
+	printf("\nEnter data:");
+	scanf("%d",&data);
+	
+	for(i=0;i<MAX;i++)
+	{
+		if(b[i]==-1)
+		{
+			b[i]=data;
+			printf("\n%d is placed at position %d",data,i+1);
+			count++;
+			return i;
+		}
+	}
+
+}
+
+void consumer()
+{	
+	int pos;
+	printf("\nEnter the location from where data is to be retrieved:");
+	scanf("%d",&pos);
+
+	if(b[pos]!=-1)
+	{
+		printf("\nData:%d",b[pos]);
+		b[pos]=-1;
+		count--;
+	}
+	else
+		printf("\nNo Data Found!!!");
+}
+		
+
+
+
+
 MEMORY ALLOCATION
 
 #include<stdio.h>
@@ -734,4 +820,83 @@ getch();
 
 
 
+////////////////////////BASH @2/////////////////////////////////
 
+#!/bin/bash
+
+echo "Cases:"
+echo "1.Greater of three numbers."
+echo "2.reverse of a number."
+echo "3.Sum of digits."
+echo "4.Display a word n times."
+
+echo "Choose any option:"
+read c
+
+case "$c" in
+"1")
+	sh ./greater.sh 1 2 3
+	;;
+"2")
+	sh ./rev.sh 123
+	;;
+"3")
+	sh ./sum.sh 123
+	;;
+"4")
+	sh ./name.sh 5 gaurav
+	;;
+esac
+
+SUM:
+#!/bin/bash 
+
+if [ $1 -gt $2 ] && [ $1 -gt $3 ] 
+then 
+echo $1 " is the greatest." 
+elif  [ $2 -gt $1 ] && [ $2 -gt $3 ] 
+then 
+echo $2 " is the greatest." 
+else 
+echo $3 " is the greatest." 
+fi 
+
+REVERSE:
+#!/bin/bash 
+
+num=$1
+
+sd=0
+rev=0
+
+while [ $num -gt 0 ]
+do 
+sd=$(( $num% 10 )) 
+rev=$(( $rev* 10 +$sd )) 
+num=$(( $num/ 10 )) 
+done 
+echo "Reverse of the number is :" $rev 
+
+SUM:
+#!/bin/bash 
+
+sd=0 
+sum=0 
+
+num=$1
+while [ $num -gt 0 ] 
+do 
+    sd=$(( $num% 10 )) # get Remainder 
+    num=$(( $num/ 10 ))  # get next digit 
+    sum=$(( $sum+ $sd )) # calculate sum of digit 
+done 
+echo  "Sum of all digit  is $sum" 
+
+WORDS:
+#!/bin/bash 
+
+echo "The name is :" 
+for i in $(seq 1 $1) 
+do 
+echo $2
+done
